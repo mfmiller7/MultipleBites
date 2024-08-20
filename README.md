@@ -60,4 +60,4 @@ Ensure you have the following installed:
 
 ## Configuration
 
-- **Backend Configuration:** The backend server configuration (e.g., port number, database URL) can be adjusted in the `server.js` or relevant configuration files.
+- **Backend Configuration:** The backend server configuration (e.g., port number, database URL) can be adjusted in the `server.js` or `.env` file.
