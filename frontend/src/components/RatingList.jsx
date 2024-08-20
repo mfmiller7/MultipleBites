@@ -5,6 +5,8 @@ import Typography from '@mui/material/Typography';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 
+// TODO: all
+
 function RatingList({ ratings }) {
   return (
     <Box>
