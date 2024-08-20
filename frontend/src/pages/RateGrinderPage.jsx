@@ -1,31 +1,36 @@
 import React, { useState } from 'react';
-import RatingForm from '../components/RatingForm';
-import { Container, Box, Button, Alert } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
-function RateGrinderPage() {
+import { Container, Box, IconButton, Alert } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
+import RatingForm from '../components/RatingForm';
+
+export default function RateGrinderPage() {
+  const navigate = useNavigate();
+
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const navigate = useNavigate();
-
-  const handleSubmit = async(newRating) => {
+  const handleSubmit = (newRating) => {
     console.log('New Rating Submitted:', newRating);
-    // TODO: debug post
     try {
-      const response = await axios.post('http://localhost:3003/savenewrating', newRating);
-      console.log('Rating saved successfully:', response.data);
-      setSuccess(true);
+      const response = fetch('http://localhost:3003/savenewrating', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newRating)
+      });
       setError(false);
+      setSuccess(true);
       setTimeout(() => {
-        navigate(-1);
-      }, 2000);
+        navigate('/');
+      }, 1000);
     } catch (error) {
-      console.error('Error saving the rating:', error);
-      setError(true);
+      console.error('Error during fetch:', error);
       setSuccess(false);
+      setError(true);
     }
   };
 
@@ -37,9 +42,9 @@ function RateGrinderPage() {
     <Container>
       <Box sx={{ pt: 4 }}>
         <Box display="flex" alignItems="center" justifyContent="space-between">
-          <Button onClick={handleBack} sx={{ ml:-2 }}>
+          <IconButton onClick={handleBack}>
             <ArrowBackIcon />
-          </Button>
+          </IconButton>
         </Box>
         <RatingForm onSubmit={handleSubmit} />
       </Box>
@@ -55,6 +60,4 @@ function RateGrinderPage() {
       )}
     </Container>
   );
-}
-
-export default RateGrinderPage;
+};

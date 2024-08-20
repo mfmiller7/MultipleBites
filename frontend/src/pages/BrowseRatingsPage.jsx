@@ -1,50 +1,105 @@
 import React, { useState, useEffect } from 'react';
-import RatingList from '../components/RatingList';
-import { Container, Box, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import axios from "axios";
+
+import { Container, Box, Menu, MenuItem, IconButton } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import AddIcon from '@mui/icons-material/Add';
-import { useNavigate } from 'react-router-dom';
+import SortIcon from '@mui/icons-material/Sort';
 
-const initialRatings = [
-  { sandwich: 'Turkey Club', rating: 4, review: 'Tasty and well-balanced.' },
-  { sandwich: 'BLT', rating: 5, review: 'Crispy bacon and fresh lettuce.' },
-];
+import RatingList from '../components/RatingList';
 
-function BrowseRatingsPage() {
-  const [filter, setFilter] = useState('');
-  const [ratings, setRatings] = useState(initialRatings);
-  const navigation = useNavigate();
+export default function BrowseRatingsPage() {
+  const navigate = useNavigate();
+  
+  const [ratings, setRatings] = useState([]);
+  const [anchorEl, setAnchorEl] = useState(null);
 
-  // useEffect = () => {
-  //   // TODO: get ratings from DB
-  // }
-
-  // TODO: figure out filtering (maybe serach too?)
-  const handleFilterChange = (newFilter) => {
-    setFilter(newFilter);
-  };
-
-  const filteredRatings = ratings.filter(rating => rating.rating >= filter);
+  useEffect(() => {
+    const fetchRatings = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3003/getallratings`);
+        setRatings(response.data.reverse());
+      } catch (error) {
+        console.error('Error fetching beers:', error);
+      }
+    };
+    fetchRatings();
+  }, []);
 
   const handleAddRating = () => {
-    navigation('/rate')
+    navigate('/rate')
+  };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleSort = (criteria) => {
+    let sortedRatings;
+    switch (criteria) {
+      case 'newest':
+        sortedRatings = sortByDate(ratings, 'newest');
+        break;
+      case 'oldest':
+        sortedRatings = sortByDate(ratings, 'oldest');
+        break;
+      case 'highest':
+        sortedRatings = ratings.slice().sort((a, b) => b.rating - a.rating);
+        break;
+      case 'lowest':
+        sortedRatings = ratings.slice().sort((a, b) => a.rating - b.rating);
+        break;
+      default:
+        sortedRatings = ratings;
+    }
+    setRatings(sortedRatings);
+  };
+
+  const sortByDate = (ratings, order) => {
+    return ratings.slice().sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      if (order === 'newest') {
+        return dateB - dateA;
+      } else {
+        return dateA - dateB;
+      }
+    });
   };
 
   return (
     <Container>
       <Box sx={{ pt: 4 }}>
         <Box display="flex" alignItems="center" justifyContent="space-between">
-          <Typography variant="h4" gutterBottom>
+          <div>
+            <IconButton onClick={handleClick}>
+              <SortIcon />
+            </IconButton>
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={() => handleSort('newest')}>Newest</MenuItem>
+              <MenuItem onClick={() => handleSort('oldest')}>Oldest</MenuItem>
+              <MenuItem onClick={() => handleSort('highest')}>Highest Rating</MenuItem>
+              <MenuItem onClick={() => handleSort('lowest')}>Lowest Rating</MenuItem>
+            </Menu>
+          </div>
+          <Typography variant="h4">
             Grinder Grader
           </Typography>
-          <Button onClick={handleAddRating}>
+          <IconButton onClick={handleAddRating}>
             <AddIcon />
-          </Button>
+          </IconButton>
         </Box>
-        <RatingList ratings={filteredRatings} />
+        <RatingList ratings={ratings} />
       </Box>
     </Container>
   );
-}
-
-export default BrowseRatingsPage;
+};

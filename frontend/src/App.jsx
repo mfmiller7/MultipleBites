@@ -1,9 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
 import BrowseRatingsPage from './pages/BrowseRatingsPage';
 import RateGrinderPage from './pages/RateGrinderPage';
 
-function App() {
+export default function App() {
   return (
     <Router>
       <Routes>
@@ -12,6 +13,4 @@ function App() {
       </Routes>
     </Router>
   );
-}
-
-export default App;
+};

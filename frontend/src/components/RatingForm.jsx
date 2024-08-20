@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+
 import { TextField, Button, Box } from '@mui/material';
 
-function RatingForm({ onSubmit }) {
+export default function RatingForm({ onSubmit }) {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [restaurant, setRestaurant] = useState('');
@@ -59,7 +60,6 @@ function RatingForm({ onSubmit }) {
           fullWidth
         />
       </Box>
-      {/* TODO: make this search resturants in db (use state management??) */}
       <TextField
         label="Restaurant"
         value={restaurant}
@@ -127,6 +127,4 @@ function RatingForm({ onSubmit }) {
       </Button>
     </Box>
   );
-}
-
-export default RatingForm;
+};
