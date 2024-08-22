@@ -18,14 +18,15 @@ export default function BrowseRatingsPage() {
   useEffect(() => {
     const fetchRatings = async () => {
       try {
-        const response = await axios.get(`http://localhost:3003/getallratings`);
+        // const response = await axios.get('http://localhost:3003/getallratings');
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/getallratings`);
         setRatings(response.data.reverse());
       } catch (error) {
-        console.error('Error fetching beers:', error);
+        console.error('Error fetching ratings:', error);
       }
     };
     fetchRatings();
-  }, []);
+  }, []);  
 
   const handleAddRating = () => {
     navigate('/rate')

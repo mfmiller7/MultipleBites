@@ -15,7 +15,8 @@ export default function RateGrinderPage() {
   const handleSubmit = (newRating) => {
     console.log('New Rating Submitted:', newRating);
     try {
-      const response = fetch('http://localhost:3003/savenewrating', {
+      // const response = fetch(`http://localhost:3003/savenewrating`, {
+      const response = fetch(`${process.env.REACT_APP_API_URL}/savenewrating`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
