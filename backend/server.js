@@ -1,7 +1,8 @@
 const express = require('express');
-const path = require('path'); // Add this line to handle paths
+const path = require('path');
 const app = express();
-const port = process.env.PORT || 3003; // Use environment variable for port in production
+const port = process.env.PORT || 3003; 
+const cors = require('cors');
 require('dotenv').config();
 const uri = process.env.MONGODB_URI;
 const { MongoClient } = require('mongodb');
@@ -18,12 +19,11 @@ async function main(){
 }
 
 // fixes CORS issue
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+app.use(cors({
+    origin: 'http://localhost:3000', // TODO: add production URL
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept']
+}));
 
 // serve static files from the React app
 app.use(express.static(path.join(__dirname, 'frontend/build')));
