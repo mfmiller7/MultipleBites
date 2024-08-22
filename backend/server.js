@@ -1,6 +1,7 @@
 const express = require('express');
+const path = require('path'); // Add this line to handle paths
 const app = express();
-const port = 3003;
+const port = process.env.PORT || 3003; // Use environment variable for port in production
 require('dotenv').config();
 const uri = process.env.MONGODB_URI;
 const { MongoClient } = require('mongodb');
@@ -10,7 +11,7 @@ async function main(){
     const client = new MongoClient(uri);
     try {
         await client.connect();
-        console.log("Connected to mongodb")
+        console.log("Connected to MongoDB");
     } catch (e) {
         console.error(e);
     }
@@ -23,6 +24,9 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
+
+// serve static files from the React app
+app.use(express.static(path.join(__dirname, 'frontend/build')));
 
 // save new rating
 app.use(express.json());
@@ -37,8 +41,10 @@ app.post('/savenewrating', async (req, res) => {
             const collection = database.collection('Ratings');
             await collection.insertOne(newRating);
             console.log(`Inserted ${newRating} into MongoDB.`);
+            res.status(200).send('Rating saved successfully'); // Send a response to the client
         } catch (error) {
             console.error(`Error saving rating to MongoDB: ${error.message}`);
+            res.status(500).send('Error saving rating'); // Send an error response to the client
         } finally {
             await client.close();
         }
@@ -50,10 +56,12 @@ app.post('/savenewrating', async (req, res) => {
 const ratings = require("./ratings");
 app.use("/", ratings);
 
-app.get("/", (req, res) => {
-    res.send("Welcome to the server!");
+// catch-all handler for any request that doesn't match an API route
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
 });
 
+// Start the server
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
     main().catch(console.error);
