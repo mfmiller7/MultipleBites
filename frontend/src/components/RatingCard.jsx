@@ -5,7 +5,7 @@ import Rating from '@mui/material/Rating';
 
 const RatingCard = ({ rating }) => {
     return (
-        <Card variant="outlined" sx={{ maxWidth: 400, margin: '20px auto' }}>
+        <Card variant="outlined" sx={{ maxWidth: 400 }}>
             <CardContent>
                 <Box display="flex" alignItems="center" justifyContent="space-between">
                     <Typography variant="h6" component="div">

@@ -1,7 +1,6 @@
 const express = require('express');
-const path = require('path'); // Add this line to handle paths
 const app = express();
-const port = process.env.PORT || 3003; // Use environment variable for port in production
+const port = process.env.PORT || 3003;
 require('dotenv').config();
 const uri = process.env.MONGODB_URI;
 const { MongoClient } = require('mongodb');
@@ -15,7 +14,7 @@ async function main(){
     } catch (e) {
         console.error(e);
     }
-}
+};
 
 // fixes CORS issue
 app.use(function(req, res, next) {
@@ -24,9 +23,6 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
-
-// serve static files from the React app
-app.use(express.static(path.join(__dirname, 'frontend/build')));
 
 // save new rating
 app.use(express.json());
@@ -55,11 +51,6 @@ app.post('/savenewrating', async (req, res) => {
 // get ratings
 const ratings = require("./ratings");
 app.use("/", ratings);
-
-// catch-all handler for any request that doesn't match an API route
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
-});
 
 // Start the server
 app.listen(port, () => {

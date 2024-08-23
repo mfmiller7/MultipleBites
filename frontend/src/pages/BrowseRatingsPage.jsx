@@ -75,7 +75,7 @@ export default function BrowseRatingsPage() {
   return (
     <Container>
       <Box sx={{ pt: 4 }}>
-        <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Box display="flex" alignItems="center" justifyContent="space-between" sx={{ pb: 4 }}>
           <div>
             <IconButton onClick={handleClick}>
               <SortIcon />
