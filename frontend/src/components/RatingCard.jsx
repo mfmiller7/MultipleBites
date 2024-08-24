@@ -3,9 +3,26 @@ import React from 'react';
 import { Card, CardContent, Typography, Box, Divider } from '@mui/material';
 import Rating from '@mui/material/Rating';
 
+import { Colors } from '../constants';
+
 const RatingCard = ({ rating }) => {
+
+    const color = (rating) => {
+        let bc;
+        if (rating >= 7 && rating <= 10) {
+            bc = Colors.green;
+        } else if (rating >= 4 && rating < 7) {
+            bc = Colors.yellow;
+        } else if (rating >= 0 && rating < 4) {
+            bc = Colors.red;
+        } else {
+            bc = Colors.white;
+        }
+        return bc;
+    };
+
     return (
-        <Card variant="outlined" sx={{ maxWidth: 400 }}>
+        <Card variant="outlined" sx={{ height: 225, overflow: 'auto', backgroundColor: color(rating.rating) }}>
             <CardContent>
                 <Box display="flex" alignItems="center" justifyContent="space-between">
                     <Typography variant="h6" component="div">
@@ -31,11 +48,10 @@ const RatingCard = ({ rating }) => {
                     </Typography>
                 </Box>
                 <Typography variant="body2" sx={{ mt: 2 }}>
-                    <em>{rating.review}</em>
+                    {rating.review}
                 </Typography>
-                <Divider sx={{ my: 2 }} />
-                <Typography variant="body2" color="text.secondary" align="right">
-                    ~ {rating.name}
+                <Typography variant="body2" color="text.secondary" align="right" sx={{ mt: 2 }}>
+                    {rating.name}
                 </Typography>
             </CardContent>
         </Card>

@@ -25,8 +25,9 @@ export default function BrowseRatingsPage() {
     const fetchRatings = async () => {
       try {
         const response = await axios.get(`http://localhost:3003/getallratings`);
-        setRatings(response.data.reverse());
-        setAllRatings(response.data.reverse());
+        const sorted = sortByDate(response.data, 'newest');
+        setRatings(sorted);
+        setAllRatings(sorted);
       } catch (error) {
         console.error('Error fetching beers:', error);
       }
@@ -118,7 +119,7 @@ export default function BrowseRatingsPage() {
 
   return (
     <Container>
-      <Box alignItems="center" sx={{ pt: 4 }}>
+      <Box alignItems="center" sx={{ pt: 4, pb:4 }}>
         <Box display="flex" alignItems="center" justifyContent="space-between" sx={{ pb: 4 }}>
           <Box display="flex" alignItems="center">
             <IconButton onClick={handleClick}>
@@ -137,7 +138,7 @@ export default function BrowseRatingsPage() {
             <IconButton onClick={handleSearch}>
               <SearchIcon />
             </IconButton>
-            {allRatings.length != ratings.length &&
+            {allRatings.length !== ratings.length &&
               <IconButton onClick={handleClear}>
                 <ClearIcon />
               </IconButton>
