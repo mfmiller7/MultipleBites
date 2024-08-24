@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
-import { Container, Box, Menu, MenuItem, IconButton, Dialog, DialogTitle, DialogContent } from '@mui/material';
+import { Container, Box, Menu, MenuItem, IconButton, Dialog, DialogContent } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import AddIcon from '@mui/icons-material/Add';
 import SortIcon from '@mui/icons-material/Sort';
@@ -37,6 +37,8 @@ export default function BrowseRatingsPage() {
   const handleAddRating = () => {
     navigate('/rate')
   };
+
+  // for sorting
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -79,6 +81,8 @@ export default function BrowseRatingsPage() {
     });
   };
 
+  // for searching
+
   const handleSearch = () => {
     setOpenSearch(true);
   };
@@ -94,7 +98,6 @@ export default function BrowseRatingsPage() {
   const handleSearchKeyPress = (event) => {
     if (event.key === 'Enter') {
       onSearch(searchQuery);
-      console.log(searchQuery);
       handleCloseSearch();
       setSearchQuery('');
     }
