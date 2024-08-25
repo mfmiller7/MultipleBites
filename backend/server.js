@@ -52,6 +52,11 @@ app.post('/savenewrating', async (req, res) => {
 const ratings = require("./ratings");
 app.use("/", ratings);
 
+// for server
+app.get("/", (req, res) => {
+    res.send("Welcome to the server, Grinder Grader should work now!");
+});
+
 // Start the server
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
