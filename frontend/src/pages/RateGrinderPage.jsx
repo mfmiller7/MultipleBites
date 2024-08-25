@@ -15,7 +15,7 @@ export default function RateGrinderPage() {
   const handleSubmit = (newRating) => {
     console.log('New Rating Submitted:', newRating);
     try {
-      const response = fetch('http://localhost:3003/savenewrating', {
+      const response = fetch('https://grindergrader.onrender.com/savenewrating', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

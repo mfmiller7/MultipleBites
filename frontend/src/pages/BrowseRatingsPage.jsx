@@ -24,7 +24,7 @@ export default function BrowseRatingsPage() {
   useEffect(() => {
     const fetchRatings = async () => {
       try {
-        const response = await axios.get(`http://localhost:3003/getallratings`);
+        const response = await axios.get('https://grindergrader.onrender.com/getallratings');
         const sorted = sortByDate(response.data, 'newest');
         setRatings(sorted);
         setAllRatings(sorted);
