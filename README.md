@@ -1,6 +1,6 @@
 # Grinder Grader
 
-My dad loves the concept of "One Bite Pizza" and wants me to build a website for him to be able to rate sandwiches, so that's my goal.
+My dad loves the concept of "One Bite Pizza" and wanted me to build a website for him to be able to rate sandwiches.
 
 ## Running the Deployed Version
 
