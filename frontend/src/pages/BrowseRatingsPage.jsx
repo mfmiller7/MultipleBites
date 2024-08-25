@@ -194,7 +194,12 @@ export default function BrowseRatingsPage() {
           onClose={handleModalClose}
         />
         {loading ? (
-          <LinearProgress color="success" />
+          <>
+            <LinearProgress color="success" />
+            <Alert severity="info" color="success">
+              If loading is taking a while please start the server by clicking this <a href="https://grindergrader.onrender.com" target="_blank" rel="noopener noreferrer">link</a>, then return to this page.
+            </Alert>
+          </>
         ) : (serverError ? (
           <Alert severity="warning">
             Please start the server by clicking this <a href="https://grindergrader.onrender.com" target="_blank" rel="noopener noreferrer">link</a>, then return to this page.

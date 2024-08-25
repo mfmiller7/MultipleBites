@@ -2,6 +2,9 @@ import React from 'react';
 
 import { Box, IconButton, Modal, Typography } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
+import AddIcon from '@mui/icons-material/Add';
+import SortIcon from '@mui/icons-material/Sort';
+import SearchIcon from '@mui/icons-material/Search';
 
 import { ModalStyle } from '../constants';
 
@@ -28,14 +31,10 @@ const InfoModal = ({ open, onClose }) => {
                 <Typography variant="h5" component="h2">
                     How to Use
                 </Typography>
-                <Typography variant="body1">
-                    Sorting: In the top right, use the icon to sort ratings by date or overall rating.
-                </Typography>
-                <Typography variant="body1">
-                    Search: Filter ratings by the rater’s name, restaurant location, or restaurant name.
-                </Typography>
                 <Typography variant="body1" paragraph>
-                    Add a Rating: Tap the plus button in the top left to add your own ratings!
+                    Click the <AddIcon fontSize='small' sx={{ verticalAlign: 'middle' }}/> icon in the top right corner to fill out the form and add your own rating! 
+                    In the top left corner, you can use the <SortIcon fontSize='small' sx={{ verticalAlign: 'middle' }}/> icon to sort ratings by date or overall score. 
+                    Use the <SearchIcon fontSize='small' sx={{ verticalAlign: 'middle' }}/> icon to filter ratings by the rater’s name, restaurant name, or restaurant location. Click the <ClearIcon fontSize='small' sx={{ verticalAlign: 'middle' }}/> icon to reset the filter when you're done.
                 </Typography>
                 <Typography variant="h5" component="h2">
                     Contact
