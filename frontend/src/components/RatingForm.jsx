@@ -3,8 +3,7 @@ import React, { useState } from 'react';
 import { TextField, Button, Box } from '@mui/material';
 
 export default function RatingForm({ onSubmit }) {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [name, setName] = useState('');
   const [restaurant, setRestaurant] = useState('');
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
@@ -15,20 +14,25 @@ export default function RatingForm({ onSubmit }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const formattedName = toPascalCase(name);
+    const formattedRestaurant = toPascalCase(restaurant);
     const ratingValue = parseFloat(rating);
+    const formattedCity = toPascalCase(city);
+    const formattedState = state.toUpperCase();
+
     if (ratingValue < 0 || ratingValue > 10 || isNaN(ratingValue)) {
       setRatingError(true);
     } else {
       onSubmit({
-        name: `${firstName} ${lastName}`,
-        restaurant,
-        location: `${city}, ${state}`,
+        name: formattedName,
+        restaurant: formattedRestaurant,
+        location: `${formattedCity}, ${formattedState}`,
         rating: ratingValue,
         review,
         date: new Date(),
       });
-      setFirstName('');
-      setLastName('');
+      setName('');
       setRestaurant('');
       setCity('');
       setState('');
@@ -38,28 +42,25 @@ export default function RatingForm({ onSubmit }) {
     }
   };
 
+  function toPascalCase(str) {
+    str = str.toLowerCase();
+    return str.trim()
+      .split(/[\s_]+/)
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
+
   return (
     <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }}>
-      <Box display="flex" gap={2}>
-        <TextField
-          label="First Name"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-        />
-        <TextField
-          label="Last Name"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-        />
-      </Box>
+      <TextField
+        label="Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        variant="outlined"
+        margin="normal"
+        required
+        fullWidth
+      />
       <TextField
         label="Restaurant"
         value={restaurant}
@@ -87,6 +88,9 @@ export default function RatingForm({ onSubmit }) {
           margin="normal"
           required
           fullWidth
+          inputProps={{
+            maxLength: 2,
+          }}
         />
       </Box>
       {ratingError ? (

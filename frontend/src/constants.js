@@ -9,4 +9,4 @@ export const logoStyles = {
     width: '25vw',
     maxWidth: '250px',
     minWidth: '180px'
-  };
+};
