@@ -2,16 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
-import { Container, Box, Menu, MenuItem, IconButton, Dialog, DialogContent } from '@mui/material';
+import { Container, Box, Menu, MenuItem, IconButton, Dialog, DialogContent, Alert } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import SortIcon from '@mui/icons-material/Sort';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import LinearProgress from '@mui/material/LinearProgress';
 
 import RatingList from '../components/RatingList';
 import logo from '../logo.png';
 import { logoStyles } from '../constants';
+import InfoModal from '../components/InfoModal';
 
 export default function BrowseRatingsPage() {
   const navigate = useNavigate();
@@ -21,23 +24,39 @@ export default function BrowseRatingsPage() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [openSearch, setOpenSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [serverError, setServerError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchRatings = async () => {
+      setLoading(true);
       try {
         const response = await axios.get('https://grindergrader.onrender.com/getallratings');
         const sorted = sortByDate(response.data, 'newest');
         setRatings(sorted);
         setAllRatings(sorted);
+        setServerError(false);
+        setLoading(false);
       } catch (error) {
-        console.error('Error fetching beers:', error);
+        setLoading(false);
+        console.error('Error fetching ratings:', error);
+        setServerError(true);
       }
     };
     fetchRatings();
   }, []);
 
   const handleAddRating = () => {
-    navigate('/rate')
+    navigate('/rate');
+  };
+
+  const handleModalOpen = () => {
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
   };
 
   // for sorting
@@ -122,7 +141,7 @@ export default function BrowseRatingsPage() {
     <Container>
       <Box sx={{ pt: 1, pb: 4 }}>
         <Box display="flex" justifyContent="space-between" sx={{ pb: 2 }}>
-        <Box sx={{ pt: 1 }}>
+          <Box sx={{ pt: 1 }}>
             <IconButton onClick={handleClick}>
               <SortIcon />
             </IconButton>
@@ -136,9 +155,11 @@ export default function BrowseRatingsPage() {
               <MenuItem onClick={() => handleSort('highest')}>Best</MenuItem>
               <MenuItem onClick={() => handleSort('lowest')}>Worst</MenuItem>
             </Menu>
-            <IconButton onClick={handleSearch}>
-              <SearchIcon />
-            </IconButton>
+            {allRatings.length === ratings.length &&
+              <IconButton onClick={handleSearch}>
+                <SearchIcon />
+              </IconButton>
+            }
             {allRatings.length !== ratings.length &&
               <IconButton onClick={handleClear}>
                 <ClearIcon />
@@ -147,6 +168,9 @@ export default function BrowseRatingsPage() {
           </Box>
           <img src={logo} alt="Grinder Grader Logo" style={logoStyles} />
           <Box sx={{ pt: 1 }}>
+            <IconButton onClick={handleModalOpen}>
+              <HelpOutlineIcon />
+            </IconButton>
             <IconButton onClick={handleAddRating}>
               <AddIcon />
             </IconButton>
@@ -165,7 +189,19 @@ export default function BrowseRatingsPage() {
             </DialogContent>
           </Dialog>
         </Box>
-        <RatingList ratings={ratings} />
+        <InfoModal
+          open={modalOpen}
+          onClose={handleModalClose}
+        />
+        {loading ? (
+          <LinearProgress color="success" />
+        ) : (serverError ? (
+          <Alert severity="warning">
+            Please start the server by clicking this <a href="https://grindergrader.onrender.com" target="_blank" rel="noopener noreferrer">link</a>, then return to this page.
+          </Alert>
+        ) : (
+          <RatingList ratings={ratings} />
+        ))}
       </Box>
     </Container>
   );

@@ -126,7 +126,7 @@ export default function RatingForm({ onSubmit }) {
         fullWidth
         margin="normal"
       />
-      <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
+      <Button type="submit" variant="contained" color="success" sx={{ mt: 2 }}>
         Submit
       </Button>
     </Box>

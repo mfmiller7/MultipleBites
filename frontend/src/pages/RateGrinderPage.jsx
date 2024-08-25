@@ -40,7 +40,7 @@ export default function RateGrinderPage() {
 
   return (
     <Container>
-      <Box sx={{ pt: 4 }}>
+      <Box sx={{ pt: 2 }}>
         <Box display="flex" alignItems="center" justifyContent="space-between">
           <IconButton onClick={handleBack}>
             <ArrowBackIcon />
