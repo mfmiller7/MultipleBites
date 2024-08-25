@@ -120,9 +120,9 @@ export default function BrowseRatingsPage() {
 
   return (
     <Container>
-      <Box alignItems="center" sx={{ pt: 2, pb: 4 }}>
-        <Box display="flex" alignItems="center" justifyContent="space-between" sx={{ pb: 4 }}>
-          <Box display="flex" alignItems="center">
+      <Box sx={{ pt: 1, pb: 4 }}>
+        <Box display="flex" justifyContent="space-between" sx={{ pb: 2 }}>
+        <Box sx={{ pt: 1 }}>
             <IconButton onClick={handleClick}>
               <SortIcon />
             </IconButton>
@@ -145,10 +145,12 @@ export default function BrowseRatingsPage() {
               </IconButton>
             }
           </Box>
-          <img src={logo} alt="Grinder Grader Logo" style={logoStyles}/>
-          <IconButton onClick={handleAddRating}>
-            <AddIcon />
-          </IconButton>
+          <img src={logo} alt="Grinder Grader Logo" style={logoStyles} />
+          <Box sx={{ pt: 1 }}>
+            <IconButton onClick={handleAddRating}>
+              <AddIcon />
+            </IconButton>
+          </Box>
           <Dialog open={openSearch} onClose={handleCloseSearch} maxWidth="xs" fullWidth>
             <DialogContent>
               <InputBase
