@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
 import { Container, Box, Menu, MenuItem, IconButton, Dialog, DialogContent } from '@mui/material';
-import Typography from '@mui/material/Typography';
 import AddIcon from '@mui/icons-material/Add';
 import SortIcon from '@mui/icons-material/Sort';
 import InputBase from '@mui/material/InputBase';
@@ -11,6 +10,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 
 import RatingList from '../components/RatingList';
+import logo from '../logo.png';
+import { logoStyles } from '../constants';
 
 export default function BrowseRatingsPage() {
   const navigate = useNavigate();
@@ -119,7 +120,7 @@ export default function BrowseRatingsPage() {
 
   return (
     <Container>
-      <Box alignItems="center" sx={{ pt: 4, pb:4 }}>
+      <Box alignItems="center" sx={{ pt: 2, pb: 4 }}>
         <Box display="flex" alignItems="center" justifyContent="space-between" sx={{ pb: 4 }}>
           <Box display="flex" alignItems="center">
             <IconButton onClick={handleClick}>
@@ -144,9 +145,7 @@ export default function BrowseRatingsPage() {
               </IconButton>
             }
           </Box>
-          <Typography variant="h4">
-            Grinder Grader
-          </Typography>
+          <img src={logo} alt="Grinder Grader Logo" style={logoStyles}/>
           <IconButton onClick={handleAddRating}>
             <AddIcon />
           </IconButton>
