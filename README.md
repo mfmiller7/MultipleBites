@@ -2,6 +2,9 @@
 
 My dad loves the concept of "One Bite Pizza" and wanted me to build a website for him to be able to rate sandwiches.
 
+<img width="1179" alt="Screenshot 2024-09-05 at 6 28 20 PM" src="https://github.com/user-attachments/assets/ea57e7d8-e77b-4b93-8858-a9250e82aa6a">
+
+
 ## Running the Deployed Version
 
 To access the deployed version of the app:
@@ -87,3 +90,4 @@ Ensure you have the following installed:
     ```
 
    The frontend application will start and open in your default web browser (usually `http://localhost:3000`).
+
